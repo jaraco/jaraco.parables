@@ -29,14 +29,14 @@ To use the program, pass the filename of the .cfg you would like to use.
 
 There are two files included:
 
-1. Reassuring.cfg - The standard reassuring parable generator.
-2. self_reference.cfg - A bonus file that generates statements about
+1. reassuring.txt - The standard reassuring parable generator.
+2. self_reference.txt - A bonus file that generates statements about
    the text generator program.
 
 Example
 -------
 
-    $ python -m jaraco.parables reassuring.cfg -n 20
+    $ python -m jaraco.parables reassuring -n 20
     Computers won't be able to understand a piece of music.
     A computer never will be able to experience eating a cookie.
     A computer won't experience eating a salad.
