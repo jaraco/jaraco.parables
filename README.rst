@@ -29,8 +29,8 @@ To use the program, pass the filename of the .cfg you would like to use.
 
 There are two files included:
 
-1. reassuring.txt - The standard reassuring parable generator.
-2. self_reference.txt - A bonus file that generates statements about
+1. reassuring - The standard reassuring parable generator.
+2. self-reference - A bonus file that generates statements about
    the text generator program.
 
 Example
