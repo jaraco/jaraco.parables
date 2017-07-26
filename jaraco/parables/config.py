@@ -35,20 +35,19 @@ class config:
             self.has_subjects = False
 
     def create_subjects(self, number = 0):
+        if not self.has_subjects:
+            return
+
         if number == 0:
             number = int(self.defaults['num_subjects'][0])
 
+        first_subject = random.choice(list(self.subjects))
+        subjects = [first_subject]
 
-        if self.has_subjects:
-            first_subject = random.choice(list(self.subjects))
-            subjects = [first_subject]
+        for i in range(1,number):
+            subjects.append(self.get_adjacent_subject(subjects[i-1]))
 
-            for i in range(1,number):
-                subjects.append(self.get_adjacent_subject(subjects[i-1]))
-
-            self.current_subjects = subjects
-        else:
-            pass
+        self.current_subjects = subjects
 
     def get_adjacent_subject(self, subject):
         node = self.subjects[subject]
