@@ -1,6 +1,7 @@
 import configparser as parser
 import random
 
+
 class config:
     # load the configuration file
     def __init__(self, config_filename):
@@ -17,7 +18,8 @@ class config:
             print('Found section: ' + section)
             dictionary[section] = {}
             for option in config.options(section):
-                dictionary[section][option] = config.get(section, option).splitlines()
+                value = config.get(section, option)
+                dictionary[section][option] = value.splitlines()
 
         self.phrases = dictionary['phrases']
 
@@ -34,7 +36,7 @@ class config:
         else:
             self.has_subjects = False
 
-    def create_subjects(self, number = 0):
+    def create_subjects(self, number=0):
         if not self.has_subjects:
             return
 
@@ -44,8 +46,8 @@ class config:
         first_subject = random.choice(list(self.subjects))
         subjects = [first_subject]
 
-        for i in range(1,number):
-            subjects.append(self.get_adjacent_subject(subjects[i-1]))
+        for i in range(1, number):
+            subjects.append(self.get_adjacent_subject(subjects[i - 1]))
 
         self.current_subjects = subjects
 
