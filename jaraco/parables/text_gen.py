@@ -44,6 +44,9 @@ def gen_phrases(filename, number_of_outputs):
 def direct_or_package_file(spec):
     """
     Find a file either in this package or directly.
+
+    >>> direct_or_package_file('self-reference')
+    '...self-reference.txt'
     """
     if os.path.isfile(spec):
         return spec
