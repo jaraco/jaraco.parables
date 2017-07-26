@@ -1,4 +1,8 @@
+import os
 import argparse
+
+import pkg_resources
+
 from .config import config
 
 
@@ -37,8 +41,28 @@ def gen_phrases(filename, number_of_outputs):
         print(gen_phrase(loaded_config))
 
 
+def direct_or_package_file(spec):
+    """
+    Find a file either in this package or directly.
+    """
+    if os.path.isfile(spec):
+        return spec
+
+    names = spec, spec + '.txt'
+    for name in names:
+        try:
+            filename = pkg_resources.resource_filename(__name__, name)
+            assert os.path.isfile(filename)
+            return filename
+        except Exception:
+            pass
+
+    raise ValueError("Couldn't find file " + spec)
+
+
 def run():
     parser = argparse.ArgumentParser()
-    parser.add_argument('filename')
-    parser.add_argument('-n', '--number_of_outputs', type=int)
-    return parser.parse_args()
+    parser.add_argument('filename', type=direct_or_package_file)
+    parser.add_argument('-n', '--number_of_outputs', type=int, default=1)
+    args = parser.parse_args()
+    gen_phrases(**vars(args))
