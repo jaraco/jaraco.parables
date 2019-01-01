@@ -1,24 +1,34 @@
+dist: xenial
 sudo: false
 language: python
+
 python:
 - 2.7
 - 3.6
+- &latest_py3 3.7
+
+jobs:
+  fast_finish: true
+  include:
+  - stage: deploy
+    if: tag IS present
+    python: *latest_py3
+    before_script: skip
+    env:
+    - TWINE_USERNAME=jaraco
+    # TWINE_PASSWORD
+    - secure: sm4NRxdi5EvciZutYTuW3cMMognWUremFHnxRFeVmwqhQ5KArQTeDj1y3HjnSOgElIDPBMUbviEaFo2prVrLwOm7Rqn850EkTeKentTKCyhTLatUy9h1xkQiCqyX1mJpfmU990XnZHc5DuKNDGzXqYrJhvmc/ztoE/0L0WHltDkB+cbYMMHY+JSixrfaIej3XjLswbyarZxwfzGtERCAZkHJzaGxJ2bn644N/nO+JYfE9gxrynLre7TlCNzryWst3egd56QruQe9xX07PstAPLv/YtXvmpegEd4zjR/mSMshwPH7y0dTrlUMMfZtxNGA9F0Wqk4t7wZayHy0tUADrvpFt6BVJK1F0j/HFn5G74pyFuSdpri3ttfDreMiniNp5XLB9B8rkJlCTe5rWEqQaVyMwRjGa+7KgDxlsWppqy0UuLRb3ACN0D/dL0jCddkhTsZ9XbCklJwcDUKl5gAKfVg6iopwBwk5w2th/sIwexPRdc9DrQxq3Gl2noDLB8V9rKvYYP2t3iVaMKGi9ymxg2jANdL1NTc7cvUFffgahVKLobfSSbGNrFkkm3zcQSqn4xf11aFyytrJpCWeCEFwZd2aLHJPlqLyul9zBvElseq+khhtO/RHcX0F9iWWZeugPK4T+OE+6ya5YUYqgqmtQ/UxDyEn199+KTEvpFGRBPc=
+    - TOX_TESTENV_PASSENV="TWINE_USERNAME TWINE_PASSWORD"
+    script: tox -e release
+
+cache: pip
+
 install:
-- pip install tox "setuptools>=28.2"
-script:
-- tox
-branches:
-  except:
-  - skeleton
-deploy:
-  provider: pypi
-  server: https://upload.pypi.org/legacy/
-  on:
-    tags: true
-    all_branches: true
-    python: 3.6
-  user: jaraco
-  distributions: dists
-  skip_upload_docs: true
-  password:
-    secure: TnXl1a3bvMstpQvy/Y5rVHoFa+V7DdTxsqOPNBvvvATLRUcu4+X56MsNDNfo+M7JZ56O+5ufl+kqe0SlOhPGQPHblQZz0J6nUwFkqQr3NTG1h/FXiEdVvM34QfP27NP3EFi3TDJ5f1oyVFewe9vOk7Y2tNW13CNJe8onMQq5U+ArNK7B0EnstXZ3CgpuikATXs/jiSpylNUTCo4WQEICfPGVJZXGJyHJasbq3rQI7M+8RUkMlSLHKHJ90vX4zIglBABozue+QY/JCCLiiBkeFyatle3Z3efmgfFPeU4noL1Fp2lQZh710cotYCN0MsoTnRCDFz+tnZL0exw57ns0PKDJNrxSg2nEkVD7WFzWEFrH4xrnf7dLuOzyLgnW2u218NJXiNU08/ksa1iCviRnBsFu6axosf5W5IJ2XWftCkZiTlxsW8ZtW5fCOdKikaX/exJuUbhJFl++1Nh09y5WJWr0jEJ6zUcrzZSiVxdYUdFOWj/l1Q4RVFiIEUVt6rc1BEb4Qed4v2S1esOX+3tuHqT/qki/likFHKdPJJQRtTUoZaz1xyAxc7jX0GQ1NF+txVopfMay/JLrE4E8YUf3CMG1wLkwGSC7IHFuQUlsu6lhS3cyNMMGiSjpKWltS/szjmJebztybQIkvK7qI5nmA0Hll2CyaHL8LxftHH2Gsac=
+- pip install tox tox-venv
+
+before_script:
+  # Disable IPv6. Ref travis-ci/travis-ci#8361
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+      sudo sh -c 'echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6';
+    fi
+script: tox

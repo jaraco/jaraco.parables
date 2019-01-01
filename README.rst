@@ -3,10 +3,14 @@
 
 .. image:: https://img.shields.io/pypi/pyversions/jaraco.parables.svg
 
-.. image:: https://img.shields.io/pypi/dm/jaraco.parables.svg
-
 .. image:: https://img.shields.io/travis/jaraco/jaraco.parables/master.svg
-   :target: http://travis-ci.org/jaraco/jaraco.parables
+   :target: https://travis-ci.org/jaraco/jaraco.parables
+
+.. .. image:: https://img.shields.io/appveyor/ci/jaraco/jaraco-parables/master.svg
+..    :target: https://ci.appveyor.com/project/jaraco/jaraco-parables/branch/master
+
+.. .. image:: https://readthedocs.org/projects/jaracoparables/badge/?version=latest
+..    :target: https://jaracoparables.readthedocs.io/en/latest/?badge=latest
 
 Python library based on `XKCD 1263: Reassuring <https://xkcd.com/1263/>`_.
 
@@ -14,13 +18,6 @@ Based on `Reassuring-Parable-Generator
 <https://github.com/JackToaster/Reassuring-Parable-Generator>`_,
 it generates thousands of reassuring parables about things humans
 are better than computers at every second.
-
-License
-=======
-
-License is indicated in the project metadata (typically one or more
-of the Trove classifiers). For more details, see `this explanation
-<https://github.com/jaraco/skeleton/issues/1>`_.
 
 Usage
 =====
