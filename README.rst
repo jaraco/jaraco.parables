@@ -1,16 +1,21 @@
 .. image:: https://img.shields.io/pypi/v/jaraco.parables.svg
-   :target: https://pypi.org/project/jaraco.parables
+   :target: `PyPI link`_
 
 .. image:: https://img.shields.io/pypi/pyversions/jaraco.parables.svg
+   :target: `PyPI link`_
 
-.. image:: https://img.shields.io/travis/jaraco/jaraco.parables/master.svg
-   :target: https://travis-ci.org/jaraco/jaraco.parables
+.. _PyPI link: https://pypi.org/project/jaraco.parables
 
-.. .. image:: https://img.shields.io/appveyor/ci/jaraco/jaraco-parables/master.svg
-..    :target: https://ci.appveyor.com/project/jaraco/jaraco-parables/branch/master
+.. image:: https://github.com/jaraco/jaraco.parables/workflows/Automated%20Tests/badge.svg
+   :target: https://github.com/jaraco/jaraco.parables/actions?query=workflow%3A%22Automated+Tests%22
+   :alt: Automated Tests
 
-.. .. image:: https://readthedocs.org/projects/jaracoparables/badge/?version=latest
-..    :target: https://jaracoparables.readthedocs.io/en/latest/?badge=latest
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
+   :alt: Code style: Black
+
+.. .. image:: https://readthedocs.org/projects/skeleton/badge/?version=latest
+..    :target: https://skeleton.readthedocs.io/en/latest/?badge=latest
 
 Python library based on `XKCD 1263: Reassuring <https://xkcd.com/1263/>`_.
 
