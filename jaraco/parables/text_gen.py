@@ -1,7 +1,13 @@
-import os
+import pathlib
+import itertools
 import argparse
 
-import pkg_resources
+try:
+    from importlib import resources  # type: ignore
+
+    resources.files
+except (ImportError, AttributeError):
+    import importlib_resources as resources  # type: ignore
 
 from .config import config
 
@@ -16,14 +22,14 @@ def evaluatePhrase(inputString, config):
     else:
         index1 = inputString.find('{')
         index2 = inputString.find('}')
-        key = inputString[index1 + 1:index2]
+        key = inputString[index1 + 1 : index2]
 
         # if the key is !, it's a subject
         if key == '!':
             phrase = config.get_subject()
         else:
             phrase = config.get_phrase(key)
-        inputString = inputString[:index1] + phrase + inputString[index2 + 1:]
+        inputString = inputString[:index1] + phrase + inputString[index2 + 1 :]
         inputString = fixFormat(inputString)
         return evaluatePhrase(inputString, config)
 
@@ -45,22 +51,17 @@ def direct_or_package_file(spec):
     """
     Find a file either in this package or directly.
 
-    >>> direct_or_package_file('self-reference')
+    >>> str(direct_or_package_file('self-reference'))
     '...self-reference.txt'
     """
-    if os.path.isfile(spec):
-        return spec
-
+    direct = pathlib.Path(spec)
     names = spec, spec + '.txt'
-    for name in names:
-        try:
-            filename = pkg_resources.resource_filename(__name__, name)
-            assert os.path.isfile(filename)
-            return filename
-        except Exception:
-            pass
-
-    raise ValueError("Couldn't find file " + spec)
+    package = (resources.files('jaraco.parables') / name for name in names)
+    candidates = itertools.chain((direct,), package)
+    try:
+        return next(file for file in candidates if file.is_file())
+    except StopIteration:
+        raise ValueError(f"Couldn't find file {spec}")
 
 
 def run():
