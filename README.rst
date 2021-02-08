@@ -29,11 +29,11 @@ Usage
 
 To use the program, pass the filename of the .cfg you would like to use.
 
-There are two files included:
+Several files are included:
 
 1. reassuring - The standard reassuring parable generator.
-2. self-reference - A bonus file that generates statements about
-   the text generator program.
+2. self-reference - A test file that generates statements about the text generator program.
+3. trump - A popular US President.
 
 Example
 -------
