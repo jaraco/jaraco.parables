@@ -5,7 +5,7 @@ import argparse
 try:
     from importlib import resources  # type: ignore
 
-    resources.files
+    resources.files  # type: ignore
 except (ImportError, AttributeError):
     import importlib_resources as resources  # type: ignore
 
