@@ -17,6 +17,9 @@
 .. .. image:: https://readthedocs.org/projects/skeleton/badge/?version=latest
 ..    :target: https://skeleton.readthedocs.io/en/latest/?badge=latest
 
+.. image:: https://img.shields.io/badge/skeleton-2022-informational
+   :target: https://blog.jaraco.com/skeleton
+
 Python library based on `XKCD 1263: Reassuring <https://xkcd.com/1263/>`_.
 
 Based on `Reassuring-Parable-Generator
