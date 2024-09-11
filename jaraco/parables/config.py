@@ -1,20 +1,33 @@
+from __future__ import annotations
+
 import configparser as parser
 import random
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+    from _typeshed import StrOrBytesPath
+    from typing_extensions import SupportsIndex
 
 
 class config:
     # load the configuration file
-    def __init__(self, config_filename):
+    def __init__(
+        self, config_filename: StrOrBytesPath | Iterable[StrOrBytesPath]
+    ) -> None:
         self.load_config(config_filename)
 
-    def load_config(self, config_filename):
+    def load_config(
+        self, config_filename: StrOrBytesPath | Iterable[StrOrBytesPath]
+    ) -> None:
         # create a config parser
         config = parser.ConfigParser()
-        config.optionxform = str
+        config.optionxform = str  # type: ignore[assignment, method-assign] # Override by stringification
         # read the file
         config.read(config_filename)
         # read the values
-        dictionary = {}
+        dictionary: dict[str, dict[str, list[str]]] = {}
         for section in config.sections():
             print('Found section: ' + section)
             dictionary[section] = {}
@@ -37,7 +50,7 @@ class config:
         else:
             self.has_subjects = False
 
-    def create_subjects(self, number=0):
+    def create_subjects(self, number: SupportsIndex = 0) -> None:
         if not self.has_subjects:
             return
 
@@ -52,14 +65,14 @@ class config:
 
         self.current_subjects = subjects
 
-    def get_adjacent_subject(self, subject):
+    def get_adjacent_subject(self, subject: str) -> str:
         node = self.subjects[subject]
         return random.choice(node)
 
-    def get_subject(self):
+    def get_subject(self) -> str:
         return random.choice(self.current_subjects)
 
-    def get_phrase(self, key):
+    def get_phrase(self, key: str) -> str:
         try:
             string_to_return = random.choice(self.phrases[key])
             if string_to_return == 'none':
