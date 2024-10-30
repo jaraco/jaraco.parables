@@ -1,3 +1,4 @@
 from . import text_gen
 
-__name__ == '__main__' and text_gen.run()
+if __name__ == '__main__':
+    text_gen.run()

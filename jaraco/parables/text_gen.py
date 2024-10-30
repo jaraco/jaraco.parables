@@ -1,22 +1,32 @@
-import pathlib
-import itertools
+from __future__ import annotations
+
 import argparse
-
-try:
-    from importlib import resources  # type: ignore
-
-    resources.files  # type: ignore
-except (ImportError, AttributeError):
-    import importlib_resources as resources  # type: ignore
+import itertools
+import pathlib
+import sys
+from importlib.abc import Traversable
+from typing import TYPE_CHECKING
 
 from .config import config
 
+if sys.version_info >= (3, 9):
+    from importlib import resources
 
-def fixFormat(input_string):
+else:
+    import importlib_resources as resources
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+    from _typeshed import StrOrBytesPath, StrPath
+    from typing_extensions import SupportsIndex
+
+
+def fixFormat(input_string: str) -> str:
     return input_string
 
 
-def evaluatePhrase(inputString, config):
+def evaluatePhrase(inputString: str, config: config) -> str:
     if inputString.find('{') == -1:
         return inputString
     else:
@@ -34,12 +44,15 @@ def evaluatePhrase(inputString, config):
         return evaluatePhrase(inputString, config)
 
 
-def gen_phrase(config):
+def gen_phrase(config: config) -> str:
     output_string = config.get_phrase('starter')
     return evaluatePhrase(output_string, config)
 
 
-def gen_phrases(filename, number_of_outputs):
+def gen_phrases(
+    filename: StrOrBytesPath | Iterable[StrOrBytesPath],
+    number_of_outputs: SupportsIndex,
+) -> None:
     loaded_config = config(filename)
 
     for i in range(0, number_of_outputs):
@@ -47,7 +60,7 @@ def gen_phrases(filename, number_of_outputs):
         print(gen_phrase(loaded_config))
 
 
-def direct_or_package_file(spec):
+def direct_or_package_file(spec: StrPath) -> Traversable:
     """
     Find a file either in this package or directly.
 
@@ -55,6 +68,7 @@ def direct_or_package_file(spec):
     '...self-reference.txt'
     """
     direct = pathlib.Path(spec)
+    spec = str(spec)
     names = spec, spec + '.txt'
     package = (resources.files('jaraco.parables') / name for name in names)
     candidates = itertools.chain((direct,), package)
@@ -64,7 +78,7 @@ def direct_or_package_file(spec):
         raise ValueError(f"Couldn't find file {spec}")
 
 
-def run():
+def run() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument('filename', type=direct_or_package_file)
     parser.add_argument('-n', '--number_of_outputs', type=int, default=1)
