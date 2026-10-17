@@ -2,12 +2,7 @@ import pathlib
 import itertools
 import argparse
 
-try:
-    from importlib import resources  # type: ignore
-
-    resources.files  # type: ignore
-except (ImportError, AttributeError):
-    import importlib_resources as resources  # type: ignore
+from importlib import resources
 
 from .config import config
 
