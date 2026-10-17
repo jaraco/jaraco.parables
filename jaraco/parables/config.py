@@ -66,6 +66,6 @@ class config:
                 return ''
             else:
                 return string_to_return
-        except Exception:
+        except (KeyError, IndexError):
             print('Could not find phrases with key ' + key)
             return ''

@@ -1,7 +1,6 @@
-import pathlib
-import itertools
 import argparse
-
+import itertools
+import pathlib
 from importlib import resources
 
 from .config import config
@@ -37,7 +36,7 @@ def gen_phrase(config):
 def gen_phrases(filename, number_of_outputs):
     loaded_config = config(filename)
 
-    for i in range(0, number_of_outputs):
+    for i in range(number_of_outputs):
         loaded_config.create_subjects()
         print(gen_phrase(loaded_config))
 
